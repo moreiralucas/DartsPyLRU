@@ -24,7 +24,7 @@
 """Trivial LRU-Dictionary implementation
 """
 
-
+from __future__ import with_statement
 
 import sys
 from threading import RLock, Lock, Condition, Thread
@@ -234,7 +234,7 @@ class LRUDict(object):
         See `iterkeys`.
         """
 
-        return iter(self.__index.keys())
+        return self.__index.iterkeys()
 
     def iterkeys(self):
 
@@ -249,7 +249,7 @@ class LRUDict(object):
         priority in any way.
         """
 
-        return iter(self.__index.keys())
+        return self.__index.iterkeys()
 
     def itervalues(self):
 
@@ -264,7 +264,7 @@ class LRUDict(object):
         priority in any way.
         """
 
-        for item in self.__index.values():
+        for item in self.__index.itervalues():
             yield item._value
 
     def iteritems(self):
@@ -280,7 +280,7 @@ class LRUDict(object):
         *not* reflect the LRU priority in any way.
         """
 
-        for key, item in self.__index.items():
+        for key, item in self.__index.iteritems():
             yield key, item._value
 
     def __delitem__(self, key):
@@ -629,7 +629,7 @@ class SynchronizedLRUDict(object):
         See `iterkeys`.
         """
 
-        return iter(self.keys())
+        return self.iterkeys()
 
     def iterkeys(self):
 
@@ -649,7 +649,7 @@ class SynchronizedLRUDict(object):
         """
 
         with self.__lock:
-            return iter(tuple(self.__dict.keys()))
+            return iter(tuple(self.__dict.iterkeys()))
 
     def itervalues(self):
         """Iterator for all values of this dictionary
@@ -668,7 +668,7 @@ class SynchronizedLRUDict(object):
         """
 
         with self.__lock:
-            return iter(tuple(self.__dict.values()))
+            return iter(tuple(self.__dict.itervalues()))
 
     def iteritems(self):
 
@@ -688,7 +688,7 @@ class SynchronizedLRUDict(object):
         """
 
         with self.__lock:
-            return iter(tuple(self.__dict.items()))
+            return iter(tuple(self.__dict.iteritems()))
 
     def __getitem__(self, key):
 
@@ -846,7 +846,7 @@ class AutoLRUCache(object):
             self.__cache.clear()
             if discard_loads:
                 conditions = list()
-                keys = tuple(self.__loading.keys())
+                keys = tuple(self.__loading.iterkeys())
                 for k in keys:
                     placeholder = self.__loading.pop(k)
                     if placeholder._state is loading:
@@ -1037,7 +1037,7 @@ class DecayingLRUCache(object):
             self.__cache.clear()
             if discard_loads:
                 conditions = list()
-                keys = tuple(self.__loading.keys())
+                keys = tuple(self.__loading.iterkeys())
                 for k in keys:
                     placeholder = self.__loading.pop(k)
                     if placeholder._state is loading:

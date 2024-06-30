@@ -25,7 +25,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "darts.util.lru",
-    version = "0.5",
+    version = "1.0",
     description='Simple dictionary with LRU behaviour',
     zip_safe=True,
     packages = find_packages(),
